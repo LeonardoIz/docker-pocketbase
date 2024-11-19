@@ -35,9 +35,10 @@ jobs:
           else
             echo "Update needed. Current version: ${CURRENT_VERSION}, Latest version: ${LATEST_VERSION}."
             echo "update_needed=true" >> $GITHUB_ENV
+          fi
 
       - name: Update Dockerfile
-        if: env.update_needed == 'true' # Solo ejecuta si hay cambios
+        if: ${{ env.update_needed == 'true' }} # Solo ejecuta si hay cambios
         run: |
           sed -i "s/^ARG PB_VERSION=.*/ARG PB_VERSION=${{ env.LATEST_VERSION }}/" Dockerfile
           git config user.name "github-actions[bot]"
@@ -45,7 +46,7 @@ jobs:
           git commit -am "chore: update PocketBase to v${{ env.LATEST_VERSION }}"
 
       - name: Create Pull Request
-        if: env.update_needed == 'true' # Solo ejecuta si hay cambios
+        if: ${{ env.update_needed == 'true' }} # Solo ejecuta si hay cambios
         uses: peter-evans/create-pull-request@v5
         with:
           branch: update-pocketbase-version
