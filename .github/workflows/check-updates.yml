@@ -28,7 +28,7 @@ jobs:
       - name: Check if update is needed
         id: check_update
         run: |
-          if [ "${{ env.LATEST_VERSION }}" = "${{ env.CURRENT_VERSION }}" ]; then
+          if [ "${{ env.LATEST_VERSION }}" = "0" ]; then
             echo "No update needed. Current version (${CURRENT_VERSION}) is already the latest (${LATEST_VERSION})."
             echo "update_needed=false" >> $GITHUB_ENV
           else
